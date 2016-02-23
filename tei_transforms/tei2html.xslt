@@ -5,7 +5,7 @@
   xmlns="http://www.w3.org/1999/xhtml"
     exclude-result-prefixes="tei">
   <xsl:import href="./reorder-line-content.xslt"/>
-  <xsl:output method="xml" indent="no" encoding="UTF-8"/>
+  <xsl:output method="html" indent="no" encoding="UTF-8"/>
 
   <xsl:param name="type">reading</xsl:param>
   <xsl:variable name="footnotes" select="//tei:note[@place='footnote']"/>
@@ -267,21 +267,5 @@
     </xsl:for-each>
   </xsl:template>
 
-  <!-- Swap out new lines for br tags. -->
-  <xsl:template match="text()" name="nl2br" mode="#all">
-    <xsl:param name="text" select="."/>
-    <xsl:choose>
-      <xsl:when test="not(contains($text, '&#xa;'))">
-        <xsl:copy-of select="$text"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="substring-before($text, '&#xa;')"/>
-        <br/>
-        <xsl:call-template name="nl2br">
-          <xsl:with-param name="text" select="substring-after($text, '&#xa;')"/>
-        </xsl:call-template>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
 
 </xsl:stylesheet>
