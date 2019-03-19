@@ -144,13 +144,15 @@ function tei_viewer_process_islandora_paged_tei_seadragon_viewer(&$variables) {
     $variables['tei_viewer_links']['occluded']['#attributes']['title'] = t("View Unoccluded");
     $token = islandora_get_object_token($occluded, 'JP2', 2);
     $page = islandora_object_load($occluded);
+    $token_header = variable_get('islandora_openseadragon_tilesource', 'djatoka') == 'iiif'
+      && variable_get('islandora_openseadragon_iiif_token_header', FALSE);
     $variables['seadragon'] = theme(
       'islandora_openseadragon_viewer',
       array(
         'pid' => $occluded,
         'tile_sources' => islandora_openseadragon_tile_source($occluded, 'JP2', $token),
         'token' => $token,
-        'token_header' => variable_get('islandora_openseadragon_tilesource', 'djatoka') == 'iiif',
+        'token_header' => $token_header,
       )
     );
     $dsids_to_render = array('PDF', 'JP2', 'TIFF');
